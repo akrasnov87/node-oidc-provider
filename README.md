@@ -140,3 +140,46 @@ actions and i.e. emit metrics that react to specific triggers. See the list of a
 [fapi]: https://openid.net/specs/openid-financial-api-part-2-1_0.html
 [ciba]: https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html
 [fapi-ciba]: https://openid.net/specs/openid-financial-api-ciba-ID1.html
+
+## Тестирование 
+
+Устанавливаем, чтобы прокинуть данные наружу:
+
+`sudo snap install ngrok`
+
+Запускаем (возможно нужно будет применить токен, надо авторизоваться)
+
+`ngrok port 3000`
+
+Переходи на сайт https://oidcdebugger.com/ и заполняем информацию, тестируем
+
+## Хранилище
+
+Провайдер работает только специальной БД для RPC-сервиса, например [us-db-ci_purgeable](https://github.com/akrasnov87/us-db-ci_purgeable). В указанную БД требуется добавить информацию из schema.sql
+
+__Примечание__: набор информации для профиля может отличаться, поэтому может потребоваться корректировка функции `oidc.sf_verify_user`
+
+## Контейнер
+
+### Сборка
+
+`docker build -t akrasnov87/node-oidc-provider:0.0.1 .`
+
+Либо вызвать `./build.sh` 
+
+### Запуск
+
+`docker run -d --rm --env-file=./.env --name node-oidc-provider -p 3000:3000 akrasnov87/node-oidc-provider:0.0.1`
+
+После запуска хост будет доступен по адресу http://localhost:3000/dev/.well-known/openid-configuration
+
+__Примечание__: виртуальный путь `/dev` может быть изменёт в файле .conf/dev.conf
+
+ Для удобства можно вывести каталог `.conf` через `volumes`, чтобы была возможность управлять настройками и данными по клиентским приложениям `clients.json`
+
+## Получение последних изменений
+
+<pre>
+git remote add upstream https://github.com/panva/node-oidc-provider.git
+git pull upstream main
+</pre>

@@ -2,27 +2,38 @@
 import { strict as assert } from 'node:assert';
 import * as querystring from 'node:querystring';
 import { inspect } from 'node:util';
+import { dirname } from 'desm';
+
+const __dirname = dirname(import.meta.url);
 
 import isEmpty from 'lodash/isEmpty.js';
 import { urlencoded } from 'express'; // eslint-disable-line import/no-unresolved
 
 import Account from '../support/account.js';
 import { errors } from '../../lib/index.js'; // from 'oidc-provider';
+import * as path from 'node:path';
+import Configuration from '../../lib/psql/conf.js';
+var args = new Configuration(path.join(__dirname, '../', '../', '.conf')).args
 
 const body = urlencoded({ extended: false });
 
 const keys = new Set();
-const debug = (obj) => querystring.stringify(Object.entries(obj).reduce((acc, [key, value]) => {
-  keys.add(key);
-  if (isEmpty(value)) return acc;
-  acc[key] = inspect(value, { depth: null });
-  return acc;
-}, {}), '<br/>', ': ', {
-  encodeURIComponent(value) { return keys.has(value) ? `<strong>${value}</strong>` : value; },
-});
+const debug = (obj) => { 
+  if(args.debug) {
+    return querystring.stringify(Object.entries(obj).reduce((acc, [key, value]) => {
+      keys.add(key);
+      if (isEmpty(value)) return acc;
+      acc[key] = inspect(value, { depth: null });
+      return acc;
+    }, {}), '<br/>', ': ', {
+      encodeURIComponent(value) { return keys.has(value) ? `<strong>${value}</strong>` : value; },
+    });
+  }
+  return '';
+}
 const { SessionNotFound } = errors;
-export default (app, provider) => {
-  app.use((req, res, next) => {
+export default (app, provider, vPath) => {
+  app.use(vPath, (req, res, next) => {
     const orig = res.render;
     // you'll probably want to use a full blown render engine capable of layouts
     res.render = (view, locals) => {
@@ -31,6 +42,7 @@ export default (app, provider) => {
         orig.call(res, '_layout', {
           ...locals,
           body: html,
+          debug: args.debug
         });
       });
     };
@@ -42,7 +54,7 @@ export default (app, provider) => {
     next();
   }
 
-  app.get('/interaction/:uid', setNoCache, async (req, res, next) => {
+  app.get(vPath + 'interaction/:uid', setNoCache, async (req, res, next) => {
     try {
       const {
         uid, prompt, params, session,
@@ -63,6 +75,7 @@ export default (app, provider) => {
               params: debug(params),
               prompt: debug(prompt),
             },
+            debug: args.debug
           });
         }
         case 'consent': {
@@ -77,6 +90,7 @@ export default (app, provider) => {
               params: debug(params),
               prompt: debug(prompt),
             },
+            debug: args.debug
           });
         }
         default:
@@ -87,25 +101,43 @@ export default (app, provider) => {
     }
   });
 
-  app.post('/interaction/:uid/login', setNoCache, body, async (req, res, next) => {
+  app.post(vPath + 'interaction/:uid/login', setNoCache, body, async (req, res, next) => {
     try {
       const { prompt: { name } } = await provider.interactionDetails(req, res);
       assert.equal(name, 'login');
-      const account = await Account.findByLogin(req.body.login);
 
-      const result = {
-        login: {
-          accountId: account.accountId,
-        },
-      };
+//provider.Interaction.adapter
 
-      await provider.interactionFinished(req, res, result, { mergeWithLastSubmission: false });
+      //const account = await Account.findByLogin(req.body.login);
+      var account;
+      
+      if(provider.Interaction.adapter.auth) {
+        account = await provider.Interaction.adapter.auth(req.body.login, req.body.password);
+
+        if(account) {
+          await Account.findByLogin(req.body.login, account.profile);
+        }
+      } else {
+        account = await Account.findByLogin(req.body.login);
+      }
+      if(account) {
+        const result = {
+          login: {
+            accountId: account.accountId,
+          },
+        };
+
+        await provider.interactionFinished(req, res, result, { mergeWithLastSubmission: false });
+      } else {
+        return res.redirect(vPath + 'interaction/' + req.params.uid, 401);
+        //res.status(401).send('No authorized');
+      }
     } catch (err) {
       next(err);
     }
   });
 
-  app.post('/interaction/:uid/confirm', setNoCache, body, async (req, res, next) => {
+  app.post(vPath + 'interaction/:uid/confirm', setNoCache, body, async (req, res, next) => {
     try {
       const interactionDetails = await provider.interactionDetails(req, res);
       const { prompt: { name, details }, params, session: { accountId } } = interactionDetails;
@@ -152,7 +184,7 @@ export default (app, provider) => {
     }
   });
 
-  app.get('/interaction/:uid/abort', setNoCache, async (req, res, next) => {
+  app.get(vPath + 'interaction/:uid/abort', setNoCache, async (req, res, next) => {
     try {
       const result = {
         error: 'access_denied',
@@ -164,7 +196,7 @@ export default (app, provider) => {
     }
   });
 
-  app.use((err, req, res, next) => {
+  app.use(vPath, (err, req, res, next) => {
     if (err instanceof SessionNotFound) {
       // handle interaction expired / session not found error
     }

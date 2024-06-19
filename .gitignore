@@ -44,3 +44,5 @@ db.sqlite
 
 # TS test
 types/*.js
+
+*-lock.json

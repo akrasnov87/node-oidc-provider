@@ -1,15 +1,20 @@
+import { dirname } from 'desm';
+
+import fs from "fs";
+
+const __dirname = dirname(import.meta.url);
+
+import * as path from 'node:path';
+import Configuration from '../../lib/psql/conf.js';
+var args = new Configuration(path.join(__dirname, '../', '../', '.conf')).args
+
+var clients = JSON.parse(fs.readFileSync(path.join(__dirname, '../', '../', '.conf', 'clients.json')).toString());
+
 export default {
-  clients: [
-    // {
-    //   client_id: 'oidcCLIENT',
-    //   client_secret: '...',
-    //   grant_types: ['refresh_token', 'authorization_code'],
-    //   redirect_uris: ['http://sso-client.dev/providers/7/open_id', 'http://sso-client.dev/providers/8/open_id'],
-    // }
-  ],
+  clients: clients,
   interactions: {
     url(ctx, interaction) { // eslint-disable-line no-unused-vars
-      return `/interaction/${interaction.uid}`;
+      return `${args.virtual_dir_path}interaction/${interaction.uid}`;
     },
   },
   cookies: {
@@ -27,6 +32,9 @@ export default {
 
     deviceFlow: { enabled: true }, // defaults to false
     revocation: { enabled: true }, // defaults to false
+  },
+  pkce: {
+    required: () => false,
   },
   jwks: {
     keys: [

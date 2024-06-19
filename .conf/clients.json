@@ -1,0 +1,16 @@
+[
+    {
+        "client_id": "oidcCLIENT",
+        "client_secret": "secret",
+        "grant_types": [
+            "refresh_token",
+            "authorization_code"
+        ],
+        "redirect_uris": [
+            "http://localhost:10000/api/global/auth/oidc/callback",
+            "http://host.docker.internal:10000/api/global/auth/oidc/callback",
+            "https://psteniusubi.github.io/oidc-tester/authorization-code-flow.html",
+            "https://oidcdebugger.com/debug"
+        ]
+    }
+]

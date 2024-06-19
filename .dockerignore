@@ -1,0 +1,5 @@
+*
+!.conf
+!example/
+!lib/
+!package.json
