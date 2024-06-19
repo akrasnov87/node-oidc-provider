@@ -46,3 +46,4 @@ db.sqlite
 types/*.js
 
 *-lock.json
+.conf/dev.conf
