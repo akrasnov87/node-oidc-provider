@@ -2,8 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [8.4.6](https://github.com/panva/node-oidc-provider/compare/v8.4.5...v8.4.6) (2024-04-23)
+## [8.4.7]
 
+Fixed:
+
+- исправлена ошибка работы сервиса с виртуальными каталогами.
+
+## [8.4.6](https://github.com/panva/node-oidc-provider/compare/v8.4.5...v8.4.6) (2024-04-23)
 
 ### Documentation
 

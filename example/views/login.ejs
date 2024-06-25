@@ -1,5 +1,5 @@
 <% if (locals.google) { %>
-<form autocomplete="off" action="/interaction/<%= uid %>/federated" method="post">
+<form autocomplete="off" action="<%= vPath %>interaction/<%= uid %>/federated" method="post">
   <input type="hidden" name="upstream" value="google">
   <button type="submit" class="google-button">
     <span class="google-button__icon">
@@ -12,7 +12,7 @@
   - or -
 </div>
 <% } %>
-<form autocomplete="off" action="/interaction/<%= uid %>/login" method="post">
+<form autocomplete="off" action="<%= vPath %>interaction/<%= uid %>/login" method="post">
   <input required type="text" name="login" placeholder="Enter any login" <% if (!params.login_hint) { %>autofocus="on"<% } else { %> value="<%= params.login_hint %>" <% } %>>
   <input required type="password" name="password" placeholder="and password" <% if (params.login_hint) { %>autofocus="on"<% } %>>
 

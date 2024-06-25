@@ -1,7 +1,7 @@
 [
     {
         "client_id": "oidcCLIENT",
-        "client_secret": "secret",
+        "client_secret": "secret777",
         "grant_types": [
             "refresh_token",
             "authorization_code"
@@ -10,7 +10,9 @@
             "http://localhost:10000/api/global/auth/oidc/callback",
             "http://host.docker.internal:10000/api/global/auth/oidc/callback",
             "https://psteniusubi.github.io/oidc-tester/authorization-code-flow.html",
-            "https://oidcdebugger.com/debug"
+            "https://oidcdebugger.com/debug",
+            "http://localhost:5001/dev/callback",
+            "http://localhost:3030/auth/v1/oidc/callback"
         ]
     }
 ]

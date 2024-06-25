@@ -69,6 +69,7 @@ export default (app, provider, vPath) => {
             uid,
             details: prompt.details,
             params,
+            vPath: vPath,
             title: 'Sign-in',
             session: session ? debug(session) : undefined,
             dbg: {
@@ -82,6 +83,7 @@ export default (app, provider, vPath) => {
           return res.render('interaction', {
             client,
             uid,
+            vPath: vPath,
             details: prompt.details,
             params,
             title: 'Authorize',
