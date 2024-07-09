@@ -47,7 +47,7 @@ BEGIN
 					'accountId', u.c_login,
 					'profile', jsonb_build_object(
 						'email', u.c_email,
-						'email_verified', u.c_email,
+						'email_verified', false,
 						'family_name', u.c_last_name,
 						'given_name', u.c_first_name,
 						'middle_name', u.c_middle_name,

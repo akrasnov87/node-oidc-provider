@@ -12,7 +12,8 @@
             "https://psteniusubi.github.io/oidc-tester/authorization-code-flow.html",
             "https://oidcdebugger.com/debug",
             "http://localhost:5001/dev/callback",
-            "http://localhost:3030/auth/v1/oidc/callback"
+            "http://localhost:3030/auth/v1/oidc/callback",
+            "http://localhost:8080/auth/v1/oidc/callback"
         ]
     }
 ]

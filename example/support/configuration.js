@@ -21,6 +21,7 @@ export default {
     keys: ['some secret key', 'and also the old rotated away some time ago', 'and one more'],
   },
   claims: {
+    openid: ['sub', 'email', 'name'],
     address: ['address'],
     email: ['email', 'email_verified'],
     phone: ['phone_number', 'phone_number_verified'],
