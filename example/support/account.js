@@ -22,12 +22,12 @@ class Account {
     if (this.profile) {
       return {
         sub: this.accountId, // it is essential to always return a sub claim
-        email: this.profile.email.indexOf(';') >= 0 ? this.profile.email.split(';')[0] : this.profile.email,
+        email: this.profile.email.indexOf(';') >= 0 ? this.profile.email.split(';')[0] : (this.profile.email || `${this.accountId}@fake.com`),
         email_verified: this.profile.email_verified,
-        family_name: this.profile.family_name,
-        given_name: this.profile.given_name,
+        family_name: this.profile.family_name || '',
+        given_name: this.profile.given_name || '',
         locale: this.profile.locale,
-        name: this.profile.name,
+        name: this.profile.name || '',
       };
     }
 
