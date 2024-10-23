@@ -149,7 +149,7 @@ actions and i.e. emit metrics that react to specific triggers. See the list of a
 
 Запускаем (возможно нужно будет применить токен, надо авторизоваться)
 
-`ngrok port 3000`
+`ngrok http 3000`
 
 Переходи на сайт https://oidcdebugger.com/ и заполняем информацию, тестируем
 
