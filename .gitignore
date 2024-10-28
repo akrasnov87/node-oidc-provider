@@ -47,3 +47,6 @@ types/*.js
 
 *-lock.json
 .conf/dev*
+.conf/budibase.conf
+
+.env*

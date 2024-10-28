@@ -12,7 +12,7 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/example/express.js",
-            "args": ["conf=./dev.conf"],
+            "args": ["conf=./budibase.conf"],
             "env": {
                 "NODE_ENV":"production"
             }

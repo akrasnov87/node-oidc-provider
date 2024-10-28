@@ -43,6 +43,11 @@ try {
     await adapter.connect();
   }
 
+  if (args.couchdb_host) {
+    ({ default: adapter } = await import('./adapters/couchdb.js'));
+    await adapter.connect();
+  }
+
   if (args.connection_string) {
     ({ default: adapter } = await import('../lib/psql/connect.js'));
     adapter.connect(args.connection_string, args.application_name);
