@@ -6,7 +6,7 @@
 
 ### Настройки
 
-В настройках сервиса должны быть заполнены параметры:
+В настройках сервиса (файл `*.conf`) должны быть заполнены параметры:
 
 * couchdb_host - хост для подключения к couchdb
 * couchdb_protocol - протокол подключения к couchdb
@@ -29,6 +29,8 @@ https=true - в режиме `production` должно быть `true`
 
 * DOCKER_ENV - тип запуска контейнера: production - контейнер запускается в "боевом режиме" (с протоколом https), developer - режим разработки;
 * APP_ENV=budibase - имя настройки из каталога `./conf`;
+
+__Примечание__: если в `APP_ENV` указано `budibase`, то в каталоге `./conf` должен быть файл `budibase.conf`
 
 `docker run --rm --env-file=./.env.budibase -p 7001:7001 -v ~/data/code/node-oidc-provider/.conf:/app/.conf akrasnov87/node-oidc-provider:latest`
 

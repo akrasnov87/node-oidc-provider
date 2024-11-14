@@ -70,7 +70,7 @@ export default (app, provider, vPath) => {
             details: prompt.details,
             params,
             vPath: vPath,
-            title: 'Sign-in',
+            title: 'Авторизация',
             session: session ? debug(session) : undefined,
             dbg: {
               params: debug(params),
@@ -86,7 +86,7 @@ export default (app, provider, vPath) => {
             vPath: vPath,
             details: prompt.details,
             params,
-            title: 'Authorize',
+            title: 'Авторизовать',
             session: session ? debug(session) : undefined,
             dbg: {
               params: debug(params),

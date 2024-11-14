@@ -13,8 +13,8 @@
 </div>
 <% } %>
 <form autocomplete="off" action="<%= vPath %>interaction/<%= uid %>/login" method="post">
-  <input required type="text" name="login" placeholder="Enter any login" <% if (!params.login_hint) { %>autofocus="on"<% } else { %> value="<%= params.login_hint %>" <% } %>>
-  <input required type="password" name="password" placeholder="and password" <% if (params.login_hint) { %>autofocus="on"<% } %>>
+  <input required type="text" name="login" placeholder="Введите логин" <% if (!params.login_hint) { %>autofocus="on"<% } else { %> value="<%= params.login_hint %>" <% } %>>
+  <input required type="password" name="password" placeholder="и пароль" <% if (params.login_hint) { %>autofocus="on"<% } %>>
 
-  <button type="submit" class="login login-submit">Sign-in</button>
+  <button type="submit" class="login login-submit">Войти</button>
 </form>

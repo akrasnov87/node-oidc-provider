@@ -167,6 +167,8 @@ __Примечание__: набор информации для профиля 
 
 Либо вызвать `./build.sh` или `yarn build:image`
 
+__Примечание__: при выполнении команды `yarn build:image` версия для контейнера берётся из `./package.json`
+
 ### Запуск
 
 `docker run -d --rm --env-file=./.env --name node-oidc-provider -p 3000:3000 akrasnov87/node-oidc-provider:0.0.1`
@@ -176,6 +178,19 @@ __Примечание__: набор информации для профиля 
 __Примечание__: виртуальный путь `/dev` может быть изменёт в файле .conf/dev.conf
 
 Для удобства можно вывести каталог `.conf` через `volumes`, чтобы была возможность управлять настройками и данными по клиентским приложениям `clients.json`
+
+### Конфигурация
+
+В папке `.conf` хранятся конфигурационные данные. Пример настройки для PostgreSQL:
+
+```
+connection_string="host:server;port:5432;user:root;password:secret;database:database-name"
+virtual_dir_path="/dev/"
+issuer="https://648d-94-232-56-134.ngrok-free.app"
+debug=false
+port=7001
+couchdb_host=""
+```
 
 ## Получение последних изменений
 
